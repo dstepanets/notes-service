@@ -9,14 +9,17 @@
 <div class="container bootstrap snippets bootdeys">
     <div class="col-md-7 col-md-offset-2">
         <header th:replace="~{fragments :: header}"></header>
+
         <div class="panel">
             <div class="panel-body">
-                <textarea class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
-                <div class="mar-top clearfix">
-                    <button class="btn btn-sm btn-primary pull-right" type="submit">
-                        <i class="fa fa-pencil fa-fw"></i> Publish
-                    </button>
-                </div>
+                <form th:action="@{/notes}" th:object="${newNote}" method="post" id="newNoteForm">
+                    <textarea th:field="*{content}" class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
+                    <div class="mar-top clearfix">
+                        <button class="btn btn-sm btn-primary pull-right" type="submit">
+                            <i class="fa fa-pencil fa-fw"></i> Publish
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -27,16 +30,15 @@
                     <div class="timeline-header-title bg-success">Notes</div>
                 </div>
 
-                <div class="timeline-entry">
+                <div th:each="note: ${allNotes}" class="timeline-entry">
                     <div class="timeline-stat">
                         <div class="timeline-icon bg-info"><i class="fa fa-file fa-lg"></i>
                         </div>
-                        <div class="timeline-time">2 Hours ago</div>
+                        <div th:text="${note.createdAt}" class="timeline-time">Time</div>
                     </div>
                     <div class="timeline-label">
-                        <h4 class="mar-no pad-btm">Job Meeting</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                            tincidunt.</p>
+                        <h4 th:text="${note.userId}" class="mar-no pad-btm">User Name</h4>
+                        <p th:text="${note.content}"></p>
                     </div>
                 </div>
 
