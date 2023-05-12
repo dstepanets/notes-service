@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: head}"></head>
+
+<body>
+
+<div class="container bootstrap snippets bootdeys">
+    <div class="col-md-7 col-md-offset-2">
+        <header th:replace="~{fragments :: header}"></header>
+        <div class="panel">
+            <div class="panel-body">
+                
+                <table>
+                    <tr>
+                        <th>User Name</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="marathon: ${marathons}">
+                        <td th:text="${marathon.title}"></td>
+                        <td th:text="${marathon.sprints.size}"></td>
+                        <td th:text="${marathon.getStudents.size}"></td>
+                        <td><a th:href="@{/marathons/edit/{id}(id=${marathon.id})}">Edit</a></td>
+                        <td><a th:href="@{/marathons/close/{id}(id=${marathon.id})}">Close</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="bottom-cell"><a th:href="@{/marathons/create}" class="button">Create</a></td>
+                    </tr>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/users.js}" type="text/javascript"></script>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

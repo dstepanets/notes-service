@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head}"></head>
+
+<body>
+
+<div class="container bootstrap snippets bootdeys">
+    <div class="col-md-7 col-md-offset-2">
+        <header th:replace="~{fragments :: header}"></header>
+        <div class="panel">
+            <div class="panel-body">
+                <textarea class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
+                <div class="mar-top clearfix">
+                    <button class="btn btn-sm btn-primary pull-right" type="submit">
+                        <i class="fa fa-pencil fa-fw"></i> Publish
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-body">
+            <div class="timeline">
+
+                <div class="timeline-header">
+                    <div class="timeline-header-title bg-success">Notes</div>
+                </div>
+
+                <div class="timeline-entry">
+                    <div class="timeline-stat">
+                        <div class="timeline-icon bg-info"><i class="fa fa-file fa-lg"></i>
+                        </div>
+                        <div class="timeline-time">2 Hours ago</div>
+                    </div>
+                    <div class="timeline-label">
+                        <h4 class="mar-no pad-btm">Job Meeting</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                            tincidunt.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>
