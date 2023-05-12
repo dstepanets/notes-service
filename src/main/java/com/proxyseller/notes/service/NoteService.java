@@ -10,4 +10,6 @@ public interface NoteService {
 	List<Note> getAllNotes();
 	Note create(Note note);
 	int getNoteLikesCount(ObjectId noteId);
+	void likeNote(ObjectId noteId);
+	void unLikeNote(ObjectId noteId);
 }

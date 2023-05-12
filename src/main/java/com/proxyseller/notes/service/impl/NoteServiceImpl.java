@@ -39,4 +39,22 @@ public class NoteServiceImpl implements NoteService {
 				.map(note -> note.getLikes().size())
 				.orElseThrow(() -> new EntityNotFoundException(String.format("Note with ID=%s not found.", noteId)));
 	}
+
+	@Override
+	public void likeNote(ObjectId noteId) {
+		Note note = noteRepository.findById(noteId)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("Note with ID=%s not found.", noteId)));
+
+		note.getLikes().add(ObjectId.get());	// TODO TMP
+		noteRepository.save(note);
+	}
+
+	@Override
+	public void unLikeNote(ObjectId noteId) {
+		Note note = noteRepository.findById(noteId)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("Note with ID=%s not found.", noteId)));
+
+		note.getLikes().remove(ObjectId.get());		// TODO TMP
+		noteRepository.save(note);
+	}
 }
