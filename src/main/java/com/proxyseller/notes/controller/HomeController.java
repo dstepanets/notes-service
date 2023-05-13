@@ -9,17 +9,10 @@ public class HomeController {
 
 	public static final String PAGE_TITLE_ATTRIBUTE = "pageTitle";
 	private static final String HOME = "Home";
-	private static final String USERS = "Users";
 
-	@GetMapping({"/", "index"})
+	@GetMapping({"/", "index", "home"})
 	public String homePage(Model model) {
 		model.addAttribute(PAGE_TITLE_ATTRIBUTE, HOME);
 		return "index";
-	}
-
-	@GetMapping("users")
-	public String usersPage(Model model) {
-		model.addAttribute(PAGE_TITLE_ATTRIBUTE, USERS);
-		return "users";
 	}
 }

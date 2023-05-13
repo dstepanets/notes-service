@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/users")
 @AllArgsConstructor(onConstructor_ = {@Autowired})
-public class UserController {
+public class UserRestController {
 
 	private UserService userService;
 

@@ -3,6 +3,13 @@
     padding: 5px;
 }
 
+.auth-link {
+    font-size: 18px;
+    padding: 3px;
+    float: right;
+    color: rgb(49, 86, 32);
+}
+
 .like-btn {
     margin: 5px;
 }

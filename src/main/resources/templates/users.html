@@ -11,21 +11,14 @@
         <div class="panel">
             <div class="panel-body">
                 
-                <table>
+                <table class="table table-sm table-striped">
                     <tr>
                         <th>User Name</th>
-                        <th></th>
-                        <th></th>
+                        <th>Role</th>
                     </tr>
-                    <tr th:each="marathon: ${marathons}">
-                        <td th:text="${marathon.title}"></td>
-                        <td th:text="${marathon.sprints.size}"></td>
-                        <td th:text="${marathon.getStudents.size}"></td>
-                        <td><a th:href="@{/marathons/edit/{id}(id=${marathon.id})}">Edit</a></td>
-                        <td><a th:href="@{/marathons/close/{id}(id=${marathon.id})}">Close</a></td>
-                    </tr>
-                    <tr>
-                        <td colspan="5" class="bottom-cell"><a th:href="@{/marathons/create}" class="button">Create</a></td>
+                    <tr th:each="user : ${allUsers}">
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.role}"></td>
                     </tr>
                 </table>
                 
