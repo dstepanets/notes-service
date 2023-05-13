@@ -23,10 +23,20 @@ public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
+	private static final User visitorUser = User.builder()
+			.id(ObjectId.get())
+			.name(User.Role.VISITOR.name())
+			.role(User.Role.VISITOR.name())
+			.build();
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return userRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException("User Name: " + username));
+	}
+
+	@Override
+	public Optional<User> findByName(String name) {
+		return userRepository.findByName(name);
 	}
 
 	@Transactional
@@ -40,6 +50,11 @@ public class UserServiceImpl implements UserService {
 		user.setRole(User.Role.USER.name());
 
 		return userRepository.insert(user);
+	}
+
+	@Override
+	public User getVisitorUser() {
+		return visitorUser;
 	}
 
 	@Override

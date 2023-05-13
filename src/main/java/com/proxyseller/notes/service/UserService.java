@@ -11,6 +11,8 @@ public interface UserService extends UserDetailsService {
 
 	User register(User user);
 
+	User getVisitorUser();
+
 	List<User> getAllUsers();
 
 	Optional<User> getUser(ObjectId userId);
@@ -20,4 +22,6 @@ public interface UserService extends UserDetailsService {
 	User updateUser(ObjectId userId, User user);
 
 	void deleteUser(ObjectId userId);
+
+	Optional<User> findByName(String name);
 }
