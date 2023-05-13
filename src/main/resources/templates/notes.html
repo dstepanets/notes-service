@@ -37,7 +37,7 @@
                         <div th:text="${note.createdAt}" class="timeline-time">Time</div>
                     </div>
                     <div class="timeline-label">
-                        <h4 th:text="${note.userId}" class="mar-no pad-btm">User Name</h4>
+                        <h4 th:text="${note.author.userName}" class="mar-no pad-btm">User Name</h4>
                         <p th:text="${note.content}"></p>
                     </div>
                     <div class="timeline-entry-inner">
