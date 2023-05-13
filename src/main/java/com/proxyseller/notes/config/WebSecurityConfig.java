@@ -22,6 +22,7 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+				.csrf().disable()	// TODO find a better way to authenticate AJAX requests
 				.authorizeHttpRequests(requests -> requests
 						.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
 						.permitAll()

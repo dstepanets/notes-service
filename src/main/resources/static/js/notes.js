@@ -1,5 +1,4 @@
 
-
 $(document).ready(function() {
     // on click of like button
     $('.like-btn').click(function() {
@@ -12,6 +11,9 @@ $(document).ready(function() {
             url: `api/notes/${noteId}/${liked ? 'un-like' : 'like'}`,
             type: 'POST',
             data: {userId: userId},
+            xhrFields: {
+                withCredentials: true
+            },
             success: function() {
                 // update like button and count
                 var likeBtn = $(`.like-btn[data-note-id="${noteId}"]`);

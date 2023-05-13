@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head th:replace="~{fragments :: head}"></head>
 
@@ -42,7 +43,9 @@
                     </div>
                     <div class="timeline-entry-inner">
                         <div class="like-container">
-                            <button th:data-note-id="${note.id}" class="like-btn btn btn-sm btn-primary pull-right" type="submit">
+                            <button sec:authorize="isAuthenticated()"
+                                    th:data-note-id="${note.id}"
+                                    class="like-btn btn btn-sm btn-primary pull-right" type="submit">
                                 <i class="fa fa-thumbs-up fa-fw"></i> Like
                             </button>
                             <span th:data-note-id="${note.id}" th:text="${note.getLikes().size()}" class="like-count">0</span>
