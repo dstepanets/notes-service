@@ -10,6 +10,17 @@
     color: rgb(49, 86, 32);
 }
 
+.logged-username {
+    font-size: 18px;
+    float: right;
+    padding: 3px;
+}
+
+.log-out-btn {
+    float: right;
+    padding: 3px;
+}
+
 .like-btn {
     margin: 5px;
 }

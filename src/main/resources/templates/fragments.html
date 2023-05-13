@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head th:fragment="head">
     <meta charset="UTF-8">
@@ -15,8 +16,13 @@
     <a class="nav-link" th:href="@{/}">Home</a>
     <a class="nav-link" th:href="@{/notes}">Notes</a>
     <a class="nav-link" th:href="@{/users}">Users</a>
-    <a class="auth-link" th:href="@{/register}">Register</a>
-    <a class="auth-link" th:href="@{/login}">Login</a>
+    <a sec:authorize="!isAuthenticated()" class="auth-link" th:href="@{/register}">Register</a>
+    <a sec:authorize="!isAuthenticated()" class="auth-link" th:href="@{/login}">Log in</a>
+    
+    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="POST" class="log-out-btn">
+        <input type="submit" th:value="|Log out|"/>
+    </form>
+    <span sec:authorize="isAuthenticated()" th:text="|${#authentication.name}|" class="logged-username"></span>
 </header>
 
 <footer th:fragment="footer">
