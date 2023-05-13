@@ -31,7 +31,7 @@ public class NoteServiceImpl implements NoteService {
 	public List<Note> getAllNotes() {
 		return noteRepository.findAll().stream()
 				.sorted((n1, n2) -> n2.getCreatedAt().compareTo(n1.getCreatedAt()))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	@Override
@@ -41,8 +41,7 @@ public class NoteServiceImpl implements NoteService {
 			User visitor = userService.getVisitorUser();
 			note.setAuthor(new Note.Author(visitor.getId(), visitor.getName()));
 		} else {
-			var user = userService.findByName(authentication.getName())
-					.orElseThrow(() -> new UsernameNotFoundException("User Name: " + authentication.getName()));
+			var user = authFacade.getCurrentUser();
 			note.setAuthor(new Note.Author(user.getId(), user.getName()));
 		}
 
@@ -61,8 +60,7 @@ public class NoteServiceImpl implements NoteService {
 	public void likeNote(ObjectId noteId) {
 		Note note = noteRepository.findById(noteId)
 				.orElseThrow(() -> new EntityNotFoundException(String.format(NOTE_NOT_FOUND_ERR_MSG, noteId)));
-
-		note.getLikes().add(ObjectId.get());	// TODO TMP
+		note.getLikes().add(authFacade.getCurrentUser().getId());
 		noteRepository.save(note);
 	}
 
@@ -70,8 +68,7 @@ public class NoteServiceImpl implements NoteService {
 	public void unLikeNote(ObjectId noteId) {
 		Note note = noteRepository.findById(noteId)
 				.orElseThrow(() -> new EntityNotFoundException(String.format(NOTE_NOT_FOUND_ERR_MSG, noteId)));
-
-		note.getLikes().remove(ObjectId.get());		// TODO TMP
+		note.getLikes().remove(authFacade.getCurrentUser().getId());
 		noteRepository.save(note);
 	}
 }
