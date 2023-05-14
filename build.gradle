@@ -4,8 +4,14 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
+jar {
+    manifest {
+        attributes('Main-Class': 'com.proxyseller.notes.NotesServiceApplication')
+    }
+}
+
 group = 'com.proxyseller'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.3-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
