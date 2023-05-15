@@ -1,5 +1,6 @@
 package com.proxyseller.notes.service.impl;
 
+import com.proxyseller.notes.config.IAuthenticationFacade;
 import com.proxyseller.notes.exception.EntityNotFoundException;
 import com.proxyseller.notes.exception.ValidationException;
 import com.proxyseller.notes.model.User;
@@ -8,6 +9,7 @@ import com.proxyseller.notes.service.UserService;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
+	private IAuthenticationFacade authenticationFacade;
 	private static final User visitorUser = User.builder()
 			.id(ObjectId.get())
 			.name(User.Role.VISITOR.name())
@@ -53,8 +56,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getVisitorUser() {
-		return visitorUser;
+	public User getCurrentUser() {
+		var authentication = authenticationFacade.getAuthentication();
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			return visitorUser;
+		}
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof User user) {
+			return user;
+		}
+
+		return userRepository.findByName(authentication.getName())
+				.orElseThrow(() -> new EntityNotFoundException("Cannot resolve current user from SecurityContext."));
 	}
 
 	@Override

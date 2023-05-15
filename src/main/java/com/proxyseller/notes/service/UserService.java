@@ -11,7 +11,7 @@ public interface UserService extends UserDetailsService {
 
 	User register(User user);
 
-	User getVisitorUser();
+	User getCurrentUser();
 
 	List<User> getAllUsers();
 

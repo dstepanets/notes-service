@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class NoteServiceImpl implements NoteService {
 
 	private NoteRepository noteRepository;
-	private IAuthenticationFacade authFacade;
 	private UserService userService;
 	private static final String NOTE_NOT_FOUND_ERR_MSG = "Note with ID=%s not found.";
 
@@ -36,15 +35,8 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public Note create(Note note) {
-		var authentication = authFacade.getAuthentication();
-		if (authentication instanceof AnonymousAuthenticationToken) {
-			User visitor = userService.getVisitorUser();
-			note.setAuthor(new Note.Author(visitor.getId(), visitor.getName()));
-		} else {
-			var user = authFacade.getCurrentUser();
-			note.setAuthor(new Note.Author(user.getId(), user.getName()));
-		}
-
+		var user = userService.getCurrentUser();
+		note.setAuthor(new Note.Author(user.getId(), user.getName()));
 		note.setCreatedAt(LocalDateTime.now());
 		return noteRepository.insert(note);
 	}
@@ -60,7 +52,7 @@ public class NoteServiceImpl implements NoteService {
 	public void likeNote(ObjectId noteId) {
 		Note note = noteRepository.findById(noteId)
 				.orElseThrow(() -> new EntityNotFoundException(String.format(NOTE_NOT_FOUND_ERR_MSG, noteId)));
-		note.getLikes().add(authFacade.getCurrentUser().getId());
+		note.getLikes().add(userService.getCurrentUser().getId());
 		noteRepository.save(note);
 	}
 
@@ -68,7 +60,7 @@ public class NoteServiceImpl implements NoteService {
 	public void unLikeNote(ObjectId noteId) {
 		Note note = noteRepository.findById(noteId)
 				.orElseThrow(() -> new EntityNotFoundException(String.format(NOTE_NOT_FOUND_ERR_MSG, noteId)));
-		note.getLikes().remove(authFacade.getCurrentUser().getId());
+		note.getLikes().remove(userService.getCurrentUser().getId());
 		noteRepository.save(note);
 	}
 }
