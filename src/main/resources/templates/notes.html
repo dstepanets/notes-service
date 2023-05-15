@@ -38,17 +38,20 @@
                         <div th:text="${note.createdAt}" class="timeline-time">Time</div>
                     </div>
                     <div class="timeline-label">
-                        <h4 th:text="${note.author.userName}" class="mar-no pad-btm">User Name</h4>
+                        <h4 th:text="${note.authorName}" class="mar-no pad-btm">User Name</h4>
                         <p th:text="${note.content}"></p>
                     </div>
                     <div class="timeline-entry-inner">
                         <div class="like-container">
                             <button sec:authorize="isAuthenticated()"
-                                    th:data-note-id="${note.id}"
-                                    class="like-btn btn btn-sm btn-primary pull-right" type="submit">
-                                <i class="fa fa-thumbs-up fa-fw"></i> Like
+                                    th:data-note-id="${note.noteId}"
+                                    th:classappend="${note.getNoteLikes().isLiked()} ? liked"
+                                    type="submit"
+                                    class="like-btn btn btn-sm btn-primary pull-right">
+                                <i class="fa fa-thumbs-up fa-fw"></i>
+                                <span th:text="${note.getNoteLikes().isLiked()} ? ' Liked' : ' Like'" th:remove="tag">Like</span>
                             </button>
-                            <span th:data-note-id="${note.id}" th:text="${note.getLikes().size()}" class="like-count">0</span>
+                            <span th:data-note-id="${note.noteId}" th:text="${note.getNoteLikes().getLikesCount()}" class="like-count">0</span>
                         </div>
                     </div>
                 </div>

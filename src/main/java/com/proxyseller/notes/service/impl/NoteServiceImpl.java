@@ -1,22 +1,19 @@
 package com.proxyseller.notes.service.impl;
 
-import com.proxyseller.notes.config.IAuthenticationFacade;
+import com.proxyseller.notes.dto.NoteEntityViewMapper;
+import com.proxyseller.notes.dto.NoteView;
 import com.proxyseller.notes.exception.EntityNotFoundException;
 import com.proxyseller.notes.model.Note;
-import com.proxyseller.notes.model.User;
 import com.proxyseller.notes.repository.NoteRepository;
 import com.proxyseller.notes.service.NoteService;
 import com.proxyseller.notes.service.UserService;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor_ = {@Autowired})
@@ -24,12 +21,14 @@ public class NoteServiceImpl implements NoteService {
 
 	private NoteRepository noteRepository;
 	private UserService userService;
+	private NoteEntityViewMapper mapper;
 	private static final String NOTE_NOT_FOUND_ERR_MSG = "Note with ID=%s not found.";
 
 	@Override
-	public List<Note> getAllNotes() {
+	public List<NoteView> getAllNotes() {
 		return noteRepository.findAll().stream()
 				.sorted((n1, n2) -> n2.getCreatedAt().compareTo(n1.getCreatedAt()))
+				.map(mapper::mapEntityToDto)
 				.toList();
 	}
 
