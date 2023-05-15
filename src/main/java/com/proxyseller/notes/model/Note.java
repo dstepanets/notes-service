@@ -29,6 +29,6 @@ public class Note {
 	@AllArgsConstructor
 	public static class Author {
 		private ObjectId userId;
-		private String userName;
+		private String userName;	// TODO get author name separately from users collection
 	}
 }
