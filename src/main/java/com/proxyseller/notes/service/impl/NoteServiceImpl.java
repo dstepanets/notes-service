@@ -41,25 +41,28 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public int getNoteLikesCount(ObjectId noteId) {
-		return noteRepository.findById(noteId)
-				.map(note -> note.getLikes().size())
-				.orElseThrow(() -> new EntityNotFoundException(String.format(NOTE_NOT_FOUND_ERR_MSG, noteId)));
-	}
-
-	@Override
-	public void likeNote(ObjectId noteId) {
+	public NoteView.NoteLikes likeNote(ObjectId noteId) {
 		Note note = noteRepository.findById(noteId)
 				.orElseThrow(() -> new EntityNotFoundException(String.format(NOTE_NOT_FOUND_ERR_MSG, noteId)));
 		note.getLikes().add(userService.getCurrentUser().getId());
-		noteRepository.save(note);
+		Note updatedNote = noteRepository.save(note);
+
+		return new NoteView.NoteLikes(
+				updatedNote.getLikes().size(),
+				updatedNote.getLikes().contains(userService.getCurrentUser().getId())
+		);
 	}
 
 	@Override
-	public void unLikeNote(ObjectId noteId) {
+	public NoteView.NoteLikes unLikeNote(ObjectId noteId) {
 		Note note = noteRepository.findById(noteId)
 				.orElseThrow(() -> new EntityNotFoundException(String.format(NOTE_NOT_FOUND_ERR_MSG, noteId)));
 		note.getLikes().remove(userService.getCurrentUser().getId());
-		noteRepository.save(note);
+		Note updatedNote = noteRepository.save(note);
+
+		return new NoteView.NoteLikes(
+				updatedNote.getLikes().size(),
+				updatedNote.getLikes().contains(userService.getCurrentUser().getId())
+		);
 	}
 }

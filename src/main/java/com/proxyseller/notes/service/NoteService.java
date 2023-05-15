@@ -10,7 +10,6 @@ public interface NoteService {
 
 	List<NoteView> getAllNotes();
 	Note create(Note note);
-	int getNoteLikesCount(ObjectId noteId);
-	void likeNote(ObjectId noteId);
-	void unLikeNote(ObjectId noteId);
+	NoteView.NoteLikes likeNote(ObjectId noteId);
+	NoteView.NoteLikes unLikeNote(ObjectId noteId);
 }

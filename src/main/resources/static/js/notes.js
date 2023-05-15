@@ -1,77 +1,31 @@
-
-$(document).ready(function() {
+$(document).ready(function () {
     // on click of like button
-    $('.like-btn').click(function() {
+    $('.like-btn').click(function () {
+        const likedClass = 'liked';
         const noteId = $(this).data('note-id');
         const likeBtn = $(`.like-btn[data-note-id="${noteId}"]`);
         const likeCount = $(`.like-count[data-note-id="${noteId}"]`);
-        const liked = likeBtn.text() === ' Liked';
+        const isLiked = likeBtn.hasClass(likedClass);
 
         // send like/unlike request to server
         $.ajax({
-            url: `api/notes/${noteId}/${liked ? 'un-like' : 'like'}`,
+            url: `api/notes/${noteId}/${isLiked ? 'un-like' : 'like'}`,
             type: 'POST',
             data: {},
             xhrFields: {
                 withCredentials: true
             },
-            success: function() {
+            success: function (response) {
                 // update like button and count
-
-                $.get(`api/notes/${noteId}/likes-count`, function(count) {
-                    likeCount.text(count);
-                });
-                likeBtn.firstChild;
-                if (liked) {
-                    likeBtn.text(' Like');
-                    likeBtn.removeClass('liked');
+                likeCount.text(response.likesCount)
+                if (response.liked === true) {
+                    likeBtn.children('span').eq(0).text(' Liked');
+                    likeBtn.addClass(likedClass);
                 } else {
-                    likeBtn.text(' Liked');
-                    likeBtn.addClass('liked');
+                    likeBtn.children('span').eq(0).text(' Like');
+                    likeBtn.removeClass(likedClass);
                 }
-
             }
         });
     });
 });
-
-
-
-/*
-$(document).ready(function() {
-    var noteId = "YOUR_NOTE_ID";
-    var userId = "YOUR_USER_ID";
-
-    // initial load of likes count
-    $.get(`api/notes/${noteId}/likes-count`, function(data) {
-        $('.like-count').text(data.count);
-    });
-
-    // on click of like button
-    $('.like-btn').click(function() {
-        if ($(this).hasClass('liked')) {
-            // unlike
-            $.ajax({
-                url: `/notes/${noteId}/un-like`,
-                type: 'POST',
-                data: {userId: userId},
-                success: function(data) {
-                    $('.like-btn').removeClass('liked').text('Like');
-                    $('.like-count').text(data.count);
-                }
-            });
-        } else {
-            // like
-            $.ajax({
-                url: `/notes/${noteId}/like`,
-                type: 'POST',
-                data: {userId: userId},
-                success: function(data) {
-                    $('.like-btn').addClass('liked').text('Liked');
-                    $('.like-count').text(data.count);
-                }
-            });
-        }
-    });
-});
-*/

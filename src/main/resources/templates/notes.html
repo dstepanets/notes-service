@@ -49,7 +49,7 @@
                                     type="submit"
                                     class="like-btn btn btn-sm btn-primary pull-right">
                                 <i class="fa fa-thumbs-up fa-fw"></i>
-                                <span th:text="${note.getNoteLikes().isLiked()} ? ' Liked' : ' Like'" th:remove="tag">Like</span>
+                                <span th:text="${note.getNoteLikes().isLiked()} ? ' Liked' : ' Like'">Like</span>
                             </button>
                             <span th:data-note-id="${note.noteId}" th:text="${note.getNoteLikes().getLikesCount()}" class="like-count">0</span>
                         </div>
